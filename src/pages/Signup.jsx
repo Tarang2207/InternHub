@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { Eye, EyeOff, User, Mail, Lock, BriefcaseBusiness } from "lucide-react";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -8,6 +9,7 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [role, setRole] = useState("student");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -46,97 +48,152 @@ function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Create Account</h1>
+    <div className="signup-page">
+      {/* Background decoration */}
+      <div className="signup-circle circle-one"></div>
+      <div className="signup-circle circle-two"></div>
+      <div className="signup-circle circle-three"></div>
 
-          <p className="mt-2 text-slate-500">
-            Join InternHub and find your next internship
-          </p>
+      <div className="signup-container">
+        {/* Left Section */}
+        <div className="signup-intro">
+          <div className="brand-logo">
+            <span>Intern</span>Hub
+          </div>
+
+          <div className="intro-content">
+            <p className="intro-small">YOUR CAREER STARTS HERE</p>
+
+            <h1>
+              Find opportunities.
+              <br />
+              <span>Build your future.</span>
+            </h1>
+
+            <p className="intro-description">
+              Discover internships, connect with companies, build your skills
+              and take the next step toward your dream career.
+            </p>
+
+            <div className="intro-feature">
+              <div className="feature-icon">
+                <BriefcaseBusiness size={20} />
+              </div>
+
+              <div>
+                <h3>Thousands of opportunities</h3>
+                <p>Find internships that match your skills.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <form onSubmit={handleSignup} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Full Name
-            </label>
+        {/* Signup Card */}
+        <div className="signup-card">
+          <div className="signup-heading">
+            <h2>Create your account</h2>
 
-            <input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
+            <p>Start discovering opportunities today.</p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Email
-            </label>
+          <form onSubmit={handleSignup}>
+            {/* Name */}
+            <div className="form-group">
+              <label>Full Name</label>
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
-          </div>
+              <div className="input-wrapper">
+                <User size={18} />
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Password
-            </label>
+                <input
+                  type="text"
+                  placeholder="Enter your name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                />
+              </div>
+            </div>
 
-            <input
-              type="password"
-              placeholder="Create a password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
-          </div>
+            {/* Email */}
+            <div className="form-group">
+              <label>Email Address</label>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              I am a
-            </label>
+              <div className="input-wrapper">
+                <Mail size={18} />
 
-            <select
-              value={role}
-              onChange={(e) => setRole(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            >
-              <option value="student">Student</option>
-              <option value="recruiter">Recruiter</option>
-            </select>
-          </div>
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition"
-          >
-            Create Account
-          </button>
-        </form>
+            {/* Password */}
+            <div className="form-group">
+              <label>Password</label>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-sky-600 font-medium">
-            {message}
+              <div className="input-wrapper">
+                <Lock size={18} />
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Create a password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  className="password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Role */}
+            <div className="form-group">
+              <label>I am a</label>
+
+              <div className="role-options">
+                <button
+                  type="button"
+                  className={`role-option ${
+                    role === "student" ? "active" : ""
+                  }`}
+                  onClick={() => setRole("student")}
+                >
+                  🎓
+                  <span>Student</span>
+                </button>
+
+                <button
+                  type="button"
+                  className={`role-option ${
+                    role === "recruiter" ? "active" : ""
+                  }`}
+                  onClick={() => setRole("recruiter")}
+                >
+                  💼
+                  <span>Recruiter</span>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" className="signup-submit">
+              Create Account
+              <span>→</span>
+            </button>
+          </form>
+
+          {message && <div className="signup-message">{message}</div>}
+
+          <p className="login-text">
+            Already have an account? <Link to="/login">Login</Link>
           </p>
-        )}
-
-        <p className="text-center text-sm text-slate-500 mt-6">
-          Already have an account?{" "}
-          <Link
-            to="/login"
-            className="text-sky-500 hover:text-sky-600 font-medium"
-          >
-            Login
-          </Link>
-        </p>
+        </div>
       </div>
     </div>
   );

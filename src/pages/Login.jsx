@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Eye, EyeOff, Mail, Lock, BriefcaseBusiness } from "lucide-react";
 
 function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -18,66 +20,124 @@ function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
-      <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">Welcome Back</h1>
+    <div className="login-page">
+      {/* Background decoration */}
+      <div className="login-circle login-circle-one"></div>
+      <div className="login-circle login-circle-two"></div>
+      <div className="login-circle login-circle-three"></div>
 
-          <p className="mt-2 text-slate-500">Login to continue to InternHub</p>
+      <div className="login-container">
+        {/* Left Section */}
+        <div className="login-intro">
+          <div className="login-brand">
+            <span>Intern</span>Hub
+          </div>
+
+          <div className="login-intro-content">
+            <p className="login-intro-small">WELCOME BACK</p>
+
+            <h1>
+              Your next
+              <br />
+              <span>opportunity awaits.</span>
+            </h1>
+
+            <p className="login-description">
+              Continue exploring internships, connect with companies and take
+              another step toward your dream career.
+            </p>
+
+            <div className="login-feature">
+              <div className="login-feature-icon">
+                <BriefcaseBusiness size={20} />
+              </div>
+
+              <div>
+                <h3>Discover. Apply. Grow.</h3>
+                <p>Your career journey starts here.</p>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <form onSubmit={handleLogin} className="space-y-5">
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Email
-            </label>
+        {/* Login Card */}
+        <div className="login-card">
+          <div className="login-heading">
+            <h2>Welcome back</h2>
 
-            <input
-              type="email"
-              placeholder="Enter your email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
+            <p>Login to continue to InternHub.</p>
           </div>
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Password
-            </label>
+          <form onSubmit={handleLogin}>
+            {/* Email */}
+            <div className="login-form-group">
+              <label>Email Address</label>
 
-            <input
-              type="password"
-              placeholder="Enter your password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              className="w-full px-4 py-3 rounded-lg border border-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            />
+              <div className="login-input-wrapper">
+                <Mail size={18} />
+
+                <input
+                  type="email"
+                  placeholder="Enter your email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+            </div>
+
+            {/* Password */}
+            <div className="login-form-group">
+              <div className="login-password-label">
+                <label>Password</label>
+
+                <button
+                  type="button"
+                  className="forgot-password"
+                  onClick={() =>
+                    setMessage("Password reset will be available soon.")
+                  }
+                >
+                  Forgot password?
+                </button>
+              </div>
+
+              <div className="login-input-wrapper">
+                <Lock size={18} />
+
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Enter your password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+
+                <button
+                  type="button"
+                  className="login-password-toggle"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Login Button */}
+            <button type="submit" className="login-submit">
+              Login
+              <span>→</span>
+            </button>
+          </form>
+
+          {message && <div className="login-message">{message}</div>}
+
+          <div className="login-divider">
+            <span>OR</span>
           </div>
 
-          <button
-            type="submit"
-            className="w-full py-3 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition"
-          >
-            Login
-          </button>
-        </form>
-
-        {message && (
-          <p className="mt-4 text-center text-sm text-sky-600 font-medium">
-            {message}
+          <p className="signup-text">
+            Don't have an account? <Link to="/signup">Create an account</Link>
           </p>
-        )}
-
-        <p className="text-center text-sm text-slate-500 mt-6">
-          Don't have an account?{" "}
-          <Link
-            to="/signup"
-            className="text-sky-500 hover:text-sky-600 font-medium"
-          >
-            Sign Up
-          </Link>
-        </p>
+        </div>
       </div>
     </div>
   );
