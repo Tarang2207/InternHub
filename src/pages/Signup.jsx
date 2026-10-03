@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 function Signup() {
   const [name, setName] = useState("");
@@ -8,7 +9,7 @@ function Signup() {
   const [role, setRole] = useState("student");
   const [message, setMessage] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
 
     if (!name || !email || !password) {
@@ -21,17 +22,34 @@ function Signup() {
       return;
     }
 
-    setMessage("Account details submitted successfully!");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/register",
+        {
+          name,
+          email,
+          password,
+        },
+      );
+
+      setMessage(response.data.message);
+
+      setName("");
+      setEmail("");
+      setPassword("");
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-6">
       <div className="w-full max-w-md bg-white border border-slate-200 rounded-2xl p-8 shadow-sm">
-
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900">
-            Create Account
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-900">Create Account</h1>
 
           <p className="mt-2 text-slate-500">
             Join InternHub and find your next internship
@@ -39,7 +57,6 @@ function Signup() {
         </div>
 
         <form onSubmit={handleSignup} className="space-y-5">
-
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
               Full Name
@@ -103,7 +120,6 @@ function Signup() {
           >
             Create Account
           </button>
-
         </form>
 
         {message && (
@@ -121,7 +137,6 @@ function Signup() {
             Login
           </Link>
         </p>
-
       </div>
     </div>
   );
