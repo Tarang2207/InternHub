@@ -10,6 +10,7 @@ import InternshipDetails from "./pages/InternshipDetails";
 import SavedInternships from "./pages/SavedInternships";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -220,7 +221,14 @@ function App() {
 
         <Route path="/internship/:id" element={<InternshipDetails />} />
 
-        <Route path="/saved" element={<SavedInternships />} />
+        <Route
+          path="/saved"
+          element={
+            <ProtectedRoute>
+              <SavedInternships />
+            </ProtectedRoute>
+          }
+        />
 
         <Route path="/login" element={<Login />} />
 

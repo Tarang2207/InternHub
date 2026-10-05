@@ -1,14 +1,18 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Mail, Lock, BriefcaseBusiness } from "lucide-react";
 
 function Login() {
+
+  const navigate = useNavigate();
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [message, setMessage] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
     if (!email || !password) {
@@ -16,7 +20,30 @@ function Login() {
       return;
     }
 
-    setMessage("Login form submitted successfully!");
+    try {
+      const response = await axios.post(
+        "http://localhost:5000/api/auth/login",
+        {
+          email,
+          password,
+        },
+      );
+
+      setMessage(response.data.message);
+      localStorage.setItem("token", response.data.token);
+      localStorage.setItem("user", JSON.stringify(response.data.user));
+
+      navigate("/");
+
+      console.log("Login response:", response.data);
+
+      // console.log("Login response:", JSON.stringify(response.data, null, 2));
+    } catch (error) {
+      setMessage(
+        error.response?.data?.message ||
+          "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (

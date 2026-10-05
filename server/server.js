@@ -1,10 +1,9 @@
-
-
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
+const authMiddleware = require("./middleware/authMiddleware");
 
 const app = express();
 
@@ -21,6 +20,13 @@ app.get("/", (req, res) => {
 const dns = require("dns");
 
 dns.setServers(["8.8.8.8", "8.8.4.4"]);
+
+app.get("/api/protected", authMiddleware, (req, res) => {
+  res.json({
+    message: "You have access to this protected route!",
+    user: req.user,
+  });
+});
 
 mongoose
   .connect(process.env.MONGO_URI)
