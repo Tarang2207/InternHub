@@ -1,5 +1,8 @@
-import { useState } from "react";
+// import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
+
 import {
   ArrowLeft,
   MapPin,
@@ -18,16 +21,49 @@ function InternshipDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
 
-  const internship = internships.find((item) => item.id === Number(id));
+  const [internship, setInternship] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [isSaved, setIsSaved] = useState(() => {
     const saved = JSON.parse(localStorage.getItem("savedInternships") || "[]");
 
-    return saved.includes(Number(id));
+    return saved.includes(id);
   });
 
   const [showApplyForm, setShowApplyForm] = useState(false);
 
+  // Fetch internship from backend
+  useEffect(() => {
+    axios
+      .get(`http://localhost:5000/api/internships/${id}`)
+      .then((response) => {
+        const data = response.data.internship;
+
+        const formattedInternship = {
+          ...data,
+          id: data._id,
+          logo: data.company.charAt(0).toUpperCase(),
+        };
+
+        setInternship(formattedInternship);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch internship:", error);
+        setLoading(false);
+      });
+  }, [id]);
+
+  // Loading state
+  if (loading) {
+    return (
+      <div className="details-not-found">
+        <h2>Loading internship...</h2>
+      </div>
+    );
+  }
+
+  // Internship not found
   if (!internship) {
     return (
       <div className="details-not-found">
@@ -38,6 +74,7 @@ function InternshipDetails() {
     );
   }
 
+  // Save / unsave internship
   const toggleSave = () => {
     const saved = JSON.parse(localStorage.getItem("savedInternships") || "[]");
 
@@ -54,6 +91,7 @@ function InternshipDetails() {
     setIsSaved(!isSaved);
   };
 
+  // Apply for internship
   const handleApply = () => {
     const token = localStorage.getItem("token");
 
@@ -65,6 +103,7 @@ function InternshipDetails() {
     setShowApplyForm(true);
   };
 
+  // Submit application
   const handleSubmitApplication = (e) => {
     e.preventDefault();
 

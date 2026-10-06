@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -11,6 +11,8 @@ import SavedInternships from "./pages/SavedInternships";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
+import axios from "axios";
+import internshipsData from "./data/internships";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -24,6 +26,30 @@ function Home() {
     const saved = localStorage.getItem("savedInternships");
     return saved ? JSON.parse(saved) : [];
   });
+
+  const [backendInternships, setBackendInternships] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:5000/api/internships")
+      .then((response) => {
+        console.log("Backend internships:", response.data.internships);
+
+        const formattedInternships = response.data.internships.map(
+          (internship) => ({
+            ...internship,
+            id: internship._id,
+            logo: internship.company.charAt(0).toUpperCase(),
+          }),
+        );
+
+        console.log("Formatted internships:", formattedInternships);
+        setBackendInternships(formattedInternships);
+      })
+      .catch((error) => {
+        console.error("Failed to fetch internships:", error);
+      });
+  }, []);
 
   // Clear all filters and search term
   const clearFilters = () => {
@@ -50,7 +76,7 @@ function Home() {
     });
   };
 
-  const filteredInternships = internships.filter((internship) => {
+  const filteredInternships = backendInternships.filter((internship) => {
     const search = searchTerm.toLowerCase();
 
     const matchesSearch =
