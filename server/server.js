@@ -4,12 +4,14 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const authRoutes = require("./routes/authRoutes");
 const authMiddleware = require("./middleware/authMiddleware");
+const internshipRoutes = require("./routes/internshipRoutes");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/api/auth", authRoutes);
+app.use("/api/internships", internshipRoutes);
 
 app.get("/", (req, res) => {
   res.json({
