@@ -1437,3 +1437,1691 @@ body {
     font-size: 26px;
   }
 }
+
+/* =========================================
+   INTERNSHIP DETAILS PAGE
+========================================= */
+
+.internship-details-page {
+  min-height: 100vh;
+  background: #f7fbff;
+  padding: 28px 6%;
+  color: #14213d;
+}
+
+/* Back Button */
+
+.details-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: none;
+  background: transparent;
+  color: #079bea;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0;
+  margin-bottom: 18px;
+}
+
+.details-back-btn:hover {
+  color: #0578bd;
+}
+
+/* =========================================
+   HEADER
+========================================= */
+
+.details-header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 22px;
+
+  background: white;
+  border: 1px solid #e3edf5;
+  border-radius: 22px;
+
+  padding: 26px 30px;
+
+  box-shadow: 0 8px 30px rgba(20, 33, 61, 0.06);
+  margin-bottom: 24px;
+}
+
+/* Company Logo */
+
+.company-logo-large {
+  width: 82px;
+  height: 82px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: linear-gradient(135deg, #e8f7ff, #d7f0ff);
+
+  color: #079bea;
+  font-size: 34px;
+  font-weight: 800;
+
+  border: 1px solid #d5ebf8;
+}
+
+/* Header Content */
+
+.details-header-content {
+  min-width: 0;
+}
+
+.details-title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+}
+
+.details-title-row h1 {
+  margin: 0 0 7px;
+
+  font-size: 32px;
+  line-height: 1.2;
+
+  color: #14213d;
+  font-weight: 800;
+}
+
+.details-company {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+
+  margin: 0;
+
+  color: #607089;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+/* Bookmark */
+
+.details-bookmark {
+  width: 42px;
+  height: 42px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  border: 1px solid #dce9f2;
+  background: white;
+
+  color: #607089;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.details-bookmark:hover {
+  background: #eff9ff;
+  color: #079bea;
+  border-color: #bde5fa;
+}
+
+.details-bookmark.saved {
+  background: #eaf7ff;
+  color: #079bea;
+  border-color: #a9ddfa;
+}
+
+/* Header Meta */
+
+.details-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+
+  margin-top: 18px;
+}
+
+.details-meta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+
+  color: #607089;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.details-meta svg {
+  color: #079bea;
+}
+
+/* Stipend */
+
+.details-stipend {
+  text-align: right;
+  padding-left: 25px;
+}
+
+.details-stipend p {
+  margin: 0 0 5px;
+
+  color: #718096;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.details-stipend h2 {
+  margin: 0;
+
+  color: #079bea;
+  font-size: 21px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+/* =========================================
+   MAIN LAYOUT
+========================================= */
+
+.details-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 350px;
+  gap: 24px;
+
+  align-items: start;
+}
+
+/* =========================================
+   LEFT CONTENT
+========================================= */
+
+.details-main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.details-section {
+  background: white;
+
+  border: 1px solid #e3edf5;
+  border-radius: 18px;
+
+  padding: 24px 26px;
+
+  box-shadow: 0 5px 20px rgba(20, 33, 61, 0.04);
+}
+
+.details-section h2 {
+  margin: 0 0 13px;
+
+  font-size: 20px;
+  font-weight: 750;
+
+  color: #14213d;
+}
+
+.details-section p {
+  margin: 0;
+
+  color: #52657d;
+
+  font-size: 15px;
+  line-height: 1.8;
+}
+
+/* =========================================
+   SKILLS
+========================================= */
+
+.details-skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+}
+
+.details-skills span {
+  padding: 7px 13px;
+
+  background: #eaf7ff;
+  color: #0789d1;
+
+  border: 1px solid #ccecff;
+
+  border-radius: 8px;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+/* =========================================
+   LISTS
+========================================= */
+
+.details-list {
+  display: flex;
+  flex-direction: column;
+
+  gap: 12px;
+
+  padding: 0;
+  margin: 0;
+
+  list-style: none;
+}
+
+.details-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+
+  color: #52657d;
+
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.details-list li svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+
+  color: #079bea;
+}
+
+/* =========================================
+   RIGHT SIDEBAR
+========================================= */
+
+.details-sidebar {
+  position: sticky;
+  top: 20px;
+}
+
+.overview-card {
+  background: white;
+
+  border: 1px solid #e3edf5;
+  border-radius: 18px;
+
+  padding: 25px;
+
+  box-shadow: 0 8px 28px rgba(20, 33, 61, 0.06);
+}
+
+.overview-card h2 {
+  margin: 0 0 22px;
+
+  color: #14213d;
+
+  font-size: 20px;
+  font-weight: 750;
+}
+
+/* Overview Items */
+
+.overview-item {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  padding: 14px 0;
+
+  border-bottom: 1px solid #edf2f6;
+}
+
+.overview-item span {
+  color: #718096;
+  font-size: 13px;
+}
+
+.overview-item strong {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+
+  color: #263b59;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+/* Stipend */
+
+.overview-item.stipend-item {
+  border-bottom: none;
+}
+
+.overview-item.stipend-item strong {
+  color: #079bea;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* Apply Button */
+
+.apply-btn {
+  width: 100%;
+
+  border: none;
+  border-radius: 11px;
+
+  padding: 13px 20px;
+
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 7px 18px rgba(7, 155, 234, 0.22);
+
+  transition: all 0.2s ease;
+
+  margin-top: 12px;
+}
+
+.apply-btn:hover {
+  background: linear-gradient(135deg, #079bea, #0787d1);
+  box-shadow: 0 10px 24px rgba(7, 155, 234, 0.3);
+}
+
+/* =========================================
+   NOT FOUND
+========================================= */
+
+.details-not-found {
+  min-height: 70vh;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+}
+
+.details-not-found h2 {
+  color: #14213d;
+}
+
+.details-not-found button {
+  border: none;
+  border-radius: 9px;
+
+  padding: 11px 18px;
+
+  background: #079bea;
+  color: white;
+
+  font-weight: 600;
+
+  cursor: pointer;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 900px) {
+  .details-header {
+    grid-template-columns: auto 1fr;
+  }
+
+  .details-stipend {
+    grid-column: 2;
+    text-align: left;
+    padding-left: 0;
+  }
+
+  .details-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .details-sidebar {
+    position: static;
+  }
+}
+
+@media (max-width: 600px) {
+  .internship-details-page {
+    padding: 20px 16px;
+  }
+
+  .details-header {
+    grid-template-columns: 1fr;
+    padding: 22px;
+  }
+
+  .company-logo-large {
+    width: 68px;
+    height: 68px;
+    font-size: 28px;
+  }
+
+  .details-title-row h1 {
+    font-size: 25px;
+  }
+
+  .details-stipend {
+    grid-column: auto;
+  }
+
+  .details-meta {
+    gap: 11px;
+  }
+
+  .details-meta span {
+    font-size: 13px;
+  }
+
+  .details-section {
+    padding: 20px;
+  }
+
+  .overview-card {
+    padding: 20px;
+  }
+}
+
+/* =========================================
+   APPLY MODAL
+========================================= */
+
+.apply-modal-overlay {
+  position: fixed;
+  inset: 0;
+
+  background: rgba(20, 33, 61, 0.45);
+  backdrop-filter: blur(6px);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 20px;
+
+  z-index: 9999;
+}
+
+.apply-modal {
+  position: relative;
+
+  width: 100%;
+  max-width: 560px;
+
+  max-height: 90vh;
+  overflow-y: auto;
+
+  background: white;
+
+  border-radius: 22px;
+
+  padding: 30px;
+
+  box-shadow: 0 25px 70px rgba(20, 33, 61, 0.2);
+
+  animation: applyModalIn 0.2s ease;
+}
+
+@keyframes applyModalIn {
+  from {
+    opacity: 0;
+    transform: translateY(15px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Close Button */
+
+.apply-modal-close {
+  position: absolute;
+
+  top: 18px;
+  right: 18px;
+
+  width: 36px;
+  height: 36px;
+
+  border: none;
+  border-radius: 50%;
+
+  background: #f3f7fa;
+
+  color: #52657d;
+
+  font-size: 25px;
+  line-height: 1;
+
+  cursor: pointer;
+}
+
+.apply-modal-close:hover {
+  background: #eaf7ff;
+  color: #079bea;
+}
+
+/* Modal Header */
+
+.apply-modal-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+
+  padding-right: 40px;
+
+  margin-bottom: 28px;
+}
+
+.apply-modal-icon {
+  width: 50px;
+  height: 50px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #eaf7ff;
+  color: #079bea;
+}
+
+.apply-modal-header h2 {
+  margin: 0 0 5px;
+
+  color: #14213d;
+
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.apply-modal-header p {
+  margin: 0;
+
+  color: #718096;
+
+  font-size: 14px;
+}
+
+/* Form */
+
+.apply-form-group {
+  margin-bottom: 22px;
+}
+
+.apply-form-group label {
+  display: block;
+
+  margin-bottom: 8px;
+
+  color: #263b59;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* Resume */
+
+.resume-upload-box {
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  min-height: 120px;
+
+  padding: 20px;
+
+  border: 1.5px dashed #b9dff3;
+  border-radius: 13px;
+
+  background: #f8fcff;
+
+  text-align: center;
+
+  cursor: pointer;
+}
+
+.resume-upload-box:hover {
+  border-color: #079bea;
+  background: #f1faff;
+}
+
+.resume-upload-box input {
+  position: absolute;
+
+  inset: 0;
+
+  width: 100%;
+  height: 100%;
+
+  opacity: 0;
+
+  cursor: pointer;
+}
+
+.resume-upload-box span {
+  color: #079bea;
+
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.resume-upload-box small {
+  margin-top: 5px;
+
+  color: #8190a5;
+
+  font-size: 12px;
+}
+
+/* Cover Letter */
+
+.apply-form-group textarea {
+  width: 100%;
+
+  resize: vertical;
+
+  border: 1px solid #dce7ef;
+  border-radius: 12px;
+
+  padding: 13px 14px;
+
+  outline: none;
+
+  color: #263b59;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  transition: border 0.2s ease;
+}
+
+.apply-form-group textarea:focus {
+  border-color: #079bea;
+
+  box-shadow: 0 0 0 3px rgba(7, 155, 234, 0.08);
+}
+
+.apply-form-group textarea::placeholder {
+  color: #9aa7b6;
+}
+
+/* Buttons */
+
+.apply-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+
+  margin-top: 8px;
+}
+
+.cancel-apply-btn,
+.submit-apply-btn {
+  padding: 12px 18px;
+
+  border-radius: 10px;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.cancel-apply-btn {
+  border: 1px solid #dce7ef;
+
+  background: white;
+
+  color: #52657d;
+}
+
+.cancel-apply-btn:hover {
+  background: #f5f8fa;
+}
+
+.submit-apply-btn {
+  border: none;
+
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  color: white;
+
+  box-shadow: 0 6px 16px rgba(7, 155, 234, 0.2);
+}
+
+.submit-apply-btn:hover {
+  transform: translateY(-1px);
+
+  box-shadow: 0 9px 20px rgba(7, 155, 234, 0.28);
+}
+
+/* Mobile */
+
+@media (max-width: 600px) {
+  .apply-modal {
+    padding: 23px;
+
+    border-radius: 18px;
+  }
+
+  .apply-modal-header h2 {
+    font-size: 19px;
+  }
+
+  .apply-form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-apply-btn,
+  .submit-apply-btn {
+    width: 100%;
+  }
+}
+
+/* =========================================
+   SAVED INTERNSHIPS PAGE
+========================================= */
+
+.saved-page {
+  min-height: 100vh;
+  background: #f7fbff;
+  padding: 32px 6%;
+  color: #14213d;
+}
+
+/* Header */
+
+.saved-header {
+  margin-bottom: 30px;
+}
+
+.saved-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+
+  border: none;
+  background: transparent;
+
+  color: #079bea;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  padding: 0;
+  margin-bottom: 18px;
+}
+
+.saved-back-btn:hover {
+  color: #0578bd;
+}
+
+.saved-header h1 {
+  margin: 0 0 7px;
+
+  font-size: 32px;
+  font-weight: 800;
+
+  color: #14213d;
+}
+
+.saved-header p {
+  margin: 0;
+
+  color: #718096;
+
+  font-size: 15px;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+
+.saved-empty {
+  min-height: 430px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  background: white;
+
+  border: 1px solid #e3edf5;
+  border-radius: 20px;
+
+  text-align: center;
+
+  padding: 40px;
+
+  box-shadow: 0 7px 25px rgba(20, 33, 61, 0.05);
+}
+
+.saved-empty-icon {
+  width: 72px;
+  height: 72px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 20px;
+
+  background: #eaf7ff;
+  color: #079bea;
+
+  margin-bottom: 18px;
+}
+
+.saved-empty h2 {
+  margin: 0 0 8px;
+
+  font-size: 21px;
+  font-weight: 750;
+
+  color: #14213d;
+}
+
+.saved-empty p {
+  max-width: 400px;
+
+  margin: 0 0 22px;
+
+  color: #718096;
+
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.saved-empty button {
+  border: none;
+
+  border-radius: 10px;
+
+  padding: 12px 20px;
+
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  color: white;
+
+  font-size: 14px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 6px 17px rgba(7, 155, 234, 0.2);
+}
+
+.saved-empty button:hover {
+  transform: translateY(-1px);
+}
+
+/* =========================================
+   SAVED GRID
+========================================= */
+
+.saved-grid {
+  display: grid;
+
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+  gap: 20px;
+}
+
+/* =========================================
+   SAVED CARD
+========================================= */
+
+.saved-card {
+  background: white;
+
+  border: 1px solid #e3edf5;
+  border-radius: 18px;
+
+  padding: 20px;
+
+  box-shadow: 0 6px 22px rgba(20, 33, 61, 0.05);
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.saved-card:hover {
+  transform: translateY(-4px);
+
+  box-shadow: 0 13px 30px rgba(20, 33, 61, 0.09);
+}
+
+/* Card Top */
+
+.saved-card-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  margin-bottom: 18px;
+}
+
+.saved-company-logo {
+  width: 52px;
+  height: 52px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #eaf7ff;
+  color: #079bea;
+
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.remove-saved-btn {
+  width: 38px;
+  height: 38px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #e2eaf0;
+  border-radius: 10px;
+
+  background: white;
+  color: #718096;
+
+  cursor: pointer;
+}
+
+.remove-saved-btn:hover {
+  background: #fff4f4;
+  color: #e05252;
+  border-color: #f2caca;
+}
+
+/* Card Content */
+
+.saved-company {
+  margin: 0 0 5px;
+
+  color: #079bea;
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.saved-card-content h2 {
+  margin: 0 0 8px;
+
+  color: #14213d;
+
+  font-size: 18px;
+  font-weight: 750;
+
+  line-height: 1.35;
+}
+
+.saved-location {
+  margin: 0;
+
+  color: #718096;
+
+  font-size: 13px;
+}
+
+/* Tags */
+
+.saved-tags {
+  display: flex;
+  flex-wrap: wrap;
+
+  gap: 7px;
+
+  margin-top: 16px;
+}
+
+.saved-tags span {
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: #f1f7fb;
+
+  color: #52657d;
+
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Bottom */
+
+.saved-card-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-top: 20px;
+
+  padding-top: 16px;
+
+  border-top: 1px solid #edf2f6;
+}
+
+.saved-card-bottom strong {
+  color: #079bea;
+
+  font-size: 14px;
+}
+
+.saved-card-bottom button {
+  border: none;
+
+  border-radius: 9px;
+
+  padding: 9px 13px;
+
+  background: #eaf7ff;
+
+  color: #0789d1;
+
+  font-size: 12px;
+  font-weight: 700;
+
+  cursor: pointer;
+}
+
+.saved-card-bottom button:hover {
+  background: #d9f1ff;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1000px) {
+  .saved-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 650px) {
+  .saved-page {
+    padding: 25px 16px;
+  }
+
+  .saved-header h1 {
+    font-size: 27px;
+  }
+
+  .saved-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* =========================================
+   STABLE BUTTON INTERACTIONS
+========================================= */
+
+/* Prevent hover movement/flicker on buttons */
+
+.login-submit,
+.signup-submit,
+.apply-btn,
+.submit-apply-btn,
+.cancel-apply-btn,
+.bookmark-btn,
+.role-option,
+.saved-empty button,
+.remove-saved-btn,
+.details-bookmark,
+.saved-card-bottom button {
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+/* =========================================
+   MAIN BLUE BUTTONS
+========================================= */
+
+.apply-btn,
+.login-submit,
+.signup-submit,
+.submit-apply-btn,
+.saved-empty button {
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease,
+    color 0.2s ease;
+}
+
+/* Keep original Apply/View Details design */
+
+.apply-btn {
+  width: 100%;
+  border: none;
+  border-radius: 11px;
+  padding: 13px 20px;
+
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow: 0 7px 18px rgba(7, 155, 234, 0.22);
+
+  margin-top: 12px;
+}
+
+.apply-btn:hover {
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  box-shadow: 0 10px 24px rgba(7, 155, 234, 0.3);
+
+  transform: none;
+}
+
+.apply-btn:active {
+  box-shadow: 0 5px 14px rgba(7, 155, 234, 0.2);
+}
+
+/* =========================================
+   LOGIN / SIGNUP BUTTONS
+========================================= */
+
+.login-submit:hover,
+.signup-submit:hover {
+  transform: none;
+
+  box-shadow: 0 12px 25px rgba(14, 165, 233, 0.3);
+}
+
+.login-submit:hover span,
+.signup-submit:hover span {
+  transform: translateX(4px);
+}
+
+.login-submit:active,
+.signup-submit:active {
+  transform: none;
+}
+
+/* =========================================
+   BOOKMARK BUTTON
+========================================= */
+
+.bookmark-btn {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.bookmark-btn:hover {
+  background: #e0f2fe;
+  transform: none;
+  box-shadow: 0 3px 8px rgba(7, 155, 234, 0.1);
+}
+
+.bookmark-btn.saved {
+  background: #e0f2fe;
+}
+
+/* =========================================
+   DETAILS BOOKMARK
+========================================= */
+
+.details-bookmark {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.details-bookmark:hover {
+  background: #eff9ff;
+  color: #079bea;
+  border-color: #bde5fa;
+
+  transform: none;
+
+  box-shadow: 0 4px 10px rgba(7, 155, 234, 0.08);
+}
+
+/* =========================================
+   ROLE BUTTONS
+========================================= */
+
+.role-option {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.role-option:hover {
+  border-color: #7dd3fc;
+  transform: none;
+}
+
+/* =========================================
+   APPLY MODAL BUTTONS
+========================================= */
+
+.cancel-apply-btn,
+.submit-apply-btn {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.cancel-apply-btn:hover {
+  background: #f5f8fa;
+  transform: none;
+}
+
+.submit-apply-btn:hover {
+  transform: none;
+
+  box-shadow: 0 9px 20px rgba(7, 155, 234, 0.28);
+}
+
+/* =========================================
+   SAVED PAGE BUTTONS
+========================================= */
+
+.saved-empty button {
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.saved-empty button:hover {
+  transform: none;
+
+  box-shadow: 0 9px 20px rgba(7, 155, 234, 0.28);
+}
+
+.remove-saved-btn {
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.remove-saved-btn:hover {
+  transform: none;
+}
+
+.saved-card-bottom button {
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.saved-card-bottom button:hover {
+  background: #d9f1ff;
+  transform: none;
+}
+
+/* =========================================
+   GENERAL BUTTON SAFETY
+========================================= */
+
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:focus-visible {
+  outline: 2px solid #38bdf8;
+  outline-offset: 2px;
+}
+
+/* =========================================
+   POLISHED INTERNSHIP CARDS
+========================================= */
+
+.internship-card {
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) 180px;
+  align-items: center;
+  gap: 20px;
+
+  position: relative;
+
+  padding: 26px 24px;
+
+  background: #ffffff;
+  border: 1px solid #dcecf7;
+  border-radius: 16px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.internship-card:hover {
+  border-color: #b9def4;
+
+  box-shadow: 0 8px 24px rgba(14, 165, 233, 0.08);
+}
+
+/* =========================================
+   COMPANY LOGO
+========================================= */
+
+.company-logo {
+  width: 64px;
+  height: 64px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 14px;
+
+  background: #eaf7ff;
+  color: #079bea;
+
+  font-size: 24px;
+  font-weight: 700;
+
+  flex-shrink: 0;
+}
+
+/* =========================================
+   INTERNSHIP INFORMATION
+========================================= */
+
+.internship-info {
+  min-width: 0;
+}
+
+.internship-info h3 {
+  margin: 0 0 10px;
+
+  color: #102a43;
+
+  font-size: 20px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.job-meta {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+
+  margin-bottom: 12px;
+}
+
+.job-meta span {
+  color: #64748b;
+
+  font-size: 14px;
+  white-space: nowrap;
+}
+
+.stipend {
+  margin: 0 0 12px;
+
+  color: #078bd5;
+
+  font-size: 17px;
+  font-weight: 700;
+}
+
+/* =========================================
+   SKILLS
+========================================= */
+
+.skills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.skill-tag {
+  padding: 6px 10px;
+
+  border-radius: 7px;
+
+  background: #eff9ff;
+  color: #078bd5;
+
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* =========================================
+   VIEW DETAILS BUTTON
+========================================= */
+
+.internship-card .apply-btn {
+  width: 180px;
+  height: 48px;
+
+  margin: 0;
+
+  justify-self: end;
+  align-self: center;
+
+  border: none;
+  border-radius: 11px;
+
+  background: linear-gradient(135deg, #079bea, #0787d1);
+
+  color: #ffffff;
+
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  box-shadow: 0 7px 18px rgba(7, 155, 234, 0.18);
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.internship-card .apply-btn:hover {
+  transform: none;
+
+  box-shadow: 0 10px 22px rgba(7, 155, 234, 0.25);
+}
+
+.internship-card .apply-btn:active {
+  transform: none;
+
+  box-shadow: 0 5px 12px rgba(7, 155, 234, 0.18);
+}
+
+/* =========================================
+   BOOKMARK
+========================================= */
+
+.internship-card .bookmark-btn {
+  position: absolute;
+
+  top: 16px;
+  right: 16px;
+
+  width: 40px;
+  height: 40px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #eaf7ff;
+
+  cursor: pointer;
+
+  transition:
+    background-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.internship-card .bookmark-btn:hover {
+  transform: none;
+
+  background: #dff2fc;
+
+  box-shadow: 0 4px 10px rgba(7, 155, 234, 0.08);
+}
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 900px) {
+  .internship-card {
+    grid-template-columns: 64px minmax(0, 1fr);
+  }
+
+  .internship-card .apply-btn {
+    grid-column: 2;
+    justify-self: start;
+
+    width: 180px;
+  }
+}
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+  .internship-card {
+    grid-template-columns: 56px minmax(0, 1fr);
+
+    gap: 15px;
+
+    padding: 20px;
+  }
+
+  .company-logo {
+    width: 56px;
+    height: 56px;
+
+    font-size: 21px;
+  }
+
+  .internship-info h3 {
+    font-size: 17px;
+  }
+
+  .job-meta {
+    gap: 8px 12px;
+  }
+
+  .job-meta span {
+    font-size: 13px;
+  }
+
+  .stipend {
+    font-size: 16px;
+  }
+
+  .internship-card .apply-btn {
+    grid-column: 1 / -1;
+
+    width: 100%;
+    height: 46px;
+
+    margin-top: 4px;
+  }
+}
+
+/* =========================================
+   SMOOTH VIEW DETAILS HOVER ANIMATION
+========================================= */
+
+.internship-card .apply-btn {
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.internship-card .apply-btn:hover {
+  background: linear-gradient(135deg, #0aa4f5, #078bd5);
+
+  box-shadow: 0 10px 24px rgba(7, 155, 234, 0.28);
+
+  transform: translateY(-2px);
+}
+
+.internship-card .apply-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 5px 12px rgba(7, 155, 234, 0.18);
+}
+
+/* =========================================
+   APPLY NOW - SMOOTH HOVER ANIMATION
+========================================= */
+
+.details-sidebar .apply-btn {
+  transition:
+    background 0.25s ease,
+    box-shadow 0.25s ease,
+    transform 0.25s ease;
+}
+
+.details-sidebar .apply-btn:hover {
+  background: linear-gradient(135deg, #0aa4f5, #078bd5);
+
+  box-shadow: 0 10px 24px rgba(7, 155, 234, 0.28);
+
+  transform: translateY(-2px);
+}
+
+.details-sidebar .apply-btn:active {
+  transform: translateY(0);
+
+  box-shadow: 0 5px 12px rgba(7, 155, 234, 0.18);
+}

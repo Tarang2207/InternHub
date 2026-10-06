@@ -1,198 +1,341 @@
-import { useParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import {
+  ArrowLeft,
+  MapPin,
+  Clock3,
+  BriefcaseBusiness,
+  Bookmark,
+  BookmarkCheck,
+  CheckCircle2,
+  IndianRupee,
+  Building2,
+} from "lucide-react";
+
 import internships from "../data/internships";
 
 function InternshipDetails() {
   const { id } = useParams();
+  const navigate = useNavigate();
 
   const internship = internships.find((item) => item.id === Number(id));
 
+  const [isSaved, setIsSaved] = useState(() => {
+    const saved = JSON.parse(localStorage.getItem("savedInternships") || "[]");
+
+    return saved.includes(Number(id));
+  });
+
+  const [showApplyForm, setShowApplyForm] = useState(false);
+
   if (!internship) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-slate-900">
-            Internship not found
-          </h1>
+      <div className="details-not-found">
+        <h2>Internship not found</h2>
 
-          <Link
-            to="/"
-            className="inline-block mt-5 text-sky-500 hover:text-sky-600"
-          >
-            ← Back to internships
-          </Link>
-        </div>
+        <button onClick={() => navigate("/")}>Back to Internships</button>
       </div>
     );
   }
 
+  const toggleSave = () => {
+    const saved = JSON.parse(localStorage.getItem("savedInternships") || "[]");
+
+    let updatedSaved;
+
+    if (isSaved) {
+      updatedSaved = saved.filter((item) => item !== internship.id);
+    } else {
+      updatedSaved = [...saved, internship.id];
+    }
+
+    localStorage.setItem("savedInternships", JSON.stringify(updatedSaved));
+
+    setIsSaved(!isSaved);
+  };
+
+  const handleApply = () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    setShowApplyForm(true);
+  };
+
+  const handleSubmitApplication = (e) => {
+    e.preventDefault();
+
+    alert(
+      "Application form submitted! Backend integration will be added later.",
+    );
+
+    setShowApplyForm(false);
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="internship-details-page">
+      {/* Back Button */}
+
+      <button className="details-back-btn" onClick={() => navigate("/")}>
+        <ArrowLeft size={18} />
+        Back to internships
+      </button>
+
       {/* Header */}
-      <div className="bg-white border-b border-slate-200">
-        <div className="max-w-6xl mx-auto px-6 py-5">
-          <Link to="/" className="text-sky-500 hover:text-sky-600 font-medium">
-            ← Back to internships
-          </Link>
+
+      <section className="details-header">
+        <div className="company-logo-large">
+          {internship.company?.charAt(0)}
         </div>
-      </div>
 
-      {/* Main Content */}
-      <main className="max-w-6xl mx-auto px-6 py-10">
-        {/* Internship Header */}
-        <div className="bg-white rounded-2xl border border-slate-200 p-8">
-          <div className="flex flex-col md:flex-row md:items-center gap-6">
-            {/* Logo */}
-            <div className="w-20 h-20 flex items-center justify-center rounded-2xl bg-sky-50 text-sky-500 text-3xl font-bold">
-              {internship.logo}
-            </div>
+        <div className="details-header-content">
+          <div className="details-title-row">
+            <div>
+              <h1>{internship.title}</h1>
 
-            {/* Basic Information */}
-            <div className="flex-1">
-              <h1 className="text-3xl font-bold text-slate-900">
-                {internship.title}
-              </h1>
-
-              <p className="mt-2 text-lg text-slate-500">
+              <p className="details-company">
+                <Building2 size={17} />
                 {internship.company}
               </p>
-
-              <div className="flex flex-wrap gap-4 mt-5 text-sm text-slate-600">
-                <span>📍 {internship.location}</span>
-                <span>💼 {internship.mode}</span>
-                <span>⏱ {internship.duration}</span>
-                <span>📋 {internship.type}</span>
-              </div>
             </div>
 
-            {/* Stipend */}
-            <div className="md:text-right">
-              <p className="text-sm text-slate-500">Stipend</p>
+            <button
+              className={`details-bookmark ${isSaved ? "saved" : ""}`}
+              onClick={toggleSave}
+            >
+              {isSaved ? <BookmarkCheck size={21} /> : <Bookmark size={21} />}
+            </button>
+          </div>
 
-              <p className="text-xl font-bold text-sky-500">
-                {internship.stipend}
-              </p>
-            </div>
+          <div className="details-meta">
+            <span>
+              <MapPin size={17} />
+              {internship.location}
+            </span>
+
+            <span>
+              <BriefcaseBusiness size={17} />
+              {internship.mode}
+            </span>
+
+            <span>
+              <Clock3 size={17} />
+              {internship.duration}
+            </span>
+
+            <span>
+              <BriefcaseBusiness size={17} />
+              {internship.type}
+            </span>
           </div>
         </div>
 
-        {/* Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
-          {/* Left Content */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* About */}
-            <section className="bg-white rounded-2xl border border-slate-200 p-7">
-              <h2 className="text-xl font-bold text-slate-900">
-                About the Internship
-              </h2>
+        <div className="details-stipend">
+          <p>Stipend</p>
 
-              <p className="mt-4 text-slate-600 leading-7">
-                {internship.description}
-              </p>
-            </section>
+          <h2>{internship.stipend}</h2>
+        </div>
+      </section>
 
-            {/* Skills */}
-            <section className="bg-white rounded-2xl border border-slate-200 p-7">
-              <h2 className="text-xl font-bold text-slate-900">
-                Skills Required
-              </h2>
+      {/* Main Layout */}
 
-              <div className="flex flex-wrap gap-2 mt-4">
-                {internship.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="px-3 py-2 rounded-lg bg-sky-50 text-sky-600 text-sm font-medium"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </section>
+      <div className="details-layout">
+        {/* Left Content */}
 
-            {/* Responsibilities */}
-            <section className="bg-white rounded-2xl border border-slate-200 p-7">
-              <h2 className="text-xl font-bold text-slate-900">
-                Responsibilities
-              </h2>
+        <main className="details-main">
+          {/* About */}
 
-              <ul className="mt-4 space-y-3 text-slate-600">
-                {internship.responsibilities.map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </section>
+          <section className="details-section">
+            <h2>About the Internship</h2>
 
-            {/* Requirements */}
-            <section className="bg-white rounded-2xl border border-slate-200 p-7">
-              <h2 className="text-xl font-bold text-slate-900">Requirements</h2>
+            <p>{internship.description}</p>
+          </section>
 
-              <ul className="mt-4 space-y-3 text-slate-600">
-                {internship.requirements.map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </section>
+          {/* Skills */}
 
-            {/* Benefits */}
-            <section className="bg-white rounded-2xl border border-slate-200 p-7">
-              <h2 className="text-xl font-bold text-slate-900">Benefits</h2>
+          <section className="details-section">
+            <h2>Skills Required</h2>
 
-              <ul className="mt-4 space-y-3 text-slate-600">
-                {internship.benefits.map((item, index) => (
-                  <li key={index}>• {item}</li>
-                ))}
-              </ul>
-            </section>
-          </div>
+            <div className="details-skills">
+              {internship.skills?.map((skill, index) => (
+                <span key={index}>{skill}</span>
+              ))}
+            </div>
+          </section>
 
-          {/* Right Sidebar */}
-          <aside className="bg-white rounded-2xl border border-slate-200 p-7 h-fit lg:sticky lg:top-6">
-            <h2 className="text-xl font-bold text-slate-900">
-              Internship Overview
-            </h2>
+          {/* Responsibilities */}
 
-            <div className="mt-6 space-y-5">
-              <div>
-                <p className="text-sm text-slate-500">Location</p>
-                <p className="mt-1 font-medium text-slate-900">
-                  {internship.location}
-                </p>
-              </div>
+          <section className="details-section">
+            <h2>Responsibilities</h2>
 
-              <div>
-                <p className="text-sm text-slate-500">Work Mode</p>
-                <p className="mt-1 font-medium text-slate-900">
-                  {internship.mode}
-                </p>
-              </div>
+            <ul className="details-list">
+              {internship.responsibilities?.map((item, index) => (
+                <li key={index}>
+                  <CheckCircle2 size={18} />
 
-              <div>
-                <p className="text-sm text-slate-500">Duration</p>
-                <p className="mt-1 font-medium text-slate-900">
-                  {internship.duration}
-                </p>
-              </div>
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
 
-              <div>
-                <p className="text-sm text-slate-500">Internship Type</p>
-                <p className="mt-1 font-medium text-slate-900">
-                  {internship.type}
-                </p>
-              </div>
+          {/* Requirements */}
 
-              <div>
-                <p className="text-sm text-slate-500">Stipend</p>
-                <p className="mt-1 font-bold text-sky-500">
-                  {internship.stipend}
-                </p>
-              </div>
+          <section className="details-section">
+            <h2>Requirements</h2>
+
+            <ul className="details-list">
+              {internship.requirements?.map((item, index) => (
+                <li key={index}>
+                  <CheckCircle2 size={18} />
+
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+
+          {/* Benefits */}
+
+          <section className="details-section">
+            <h2>Benefits</h2>
+
+            <ul className="details-list">
+              {internship.benefits?.map((item, index) => (
+                <li key={index}>
+                  <CheckCircle2 size={18} />
+
+                  <span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </section>
+        </main>
+
+        {/* Right Sidebar */}
+
+        <aside className="details-sidebar">
+          <div className="overview-card">
+            <h2>Internship Overview</h2>
+
+            <div className="overview-item">
+              <span>Location</span>
+
+              <strong>{internship.location}</strong>
             </div>
 
-            <button className="w-full mt-8 py-3 rounded-lg bg-sky-500 hover:bg-sky-600 text-white font-semibold transition">
+            <div className="overview-item">
+              <span>Work Mode</span>
+
+              <strong>{internship.mode}</strong>
+            </div>
+
+            <div className="overview-item">
+              <span>Duration</span>
+
+              <strong>{internship.duration}</strong>
+            </div>
+
+            <div className="overview-item">
+              <span>Internship Type</span>
+
+              <strong>{internship.type}</strong>
+            </div>
+
+            <div className="overview-item stipend-item">
+              <span>Stipend</span>
+
+              <strong>
+                <IndianRupee size={17} />
+                {internship.stipend}
+              </strong>
+            </div>
+
+            <button className="apply-btn" onClick={handleApply}>
               Apply Now
             </button>
-          </aside>
+          </div>
+        </aside>
+      </div>
+
+      {/* Apply Modal */}
+
+      {showApplyForm && (
+        <div className="apply-modal-overlay">
+          <div className="apply-modal">
+            <button
+              className="apply-modal-close"
+              onClick={() => setShowApplyForm(false)}
+            >
+              ×
+            </button>
+
+            {/* Modal Header */}
+
+            <div className="apply-modal-header">
+              <div className="apply-modal-icon">
+                <BriefcaseBusiness size={24} />
+              </div>
+
+              <div>
+                <h2>Apply for Internship</h2>
+
+                <p>
+                  {internship.title} at {internship.company}
+                </p>
+              </div>
+            </div>
+
+            {/* Form */}
+
+            <form onSubmit={handleSubmitApplication}>
+              {/* Resume */}
+
+              <div className="apply-form-group">
+                <label>Resume</label>
+
+                <div className="resume-upload-box">
+                  <input type="file" accept=".pdf,.doc,.docx" />
+
+                  <span>Upload your resume</span>
+
+                  <small>PDF, DOC or DOCX</small>
+                </div>
+              </div>
+
+              {/* Cover Letter */}
+
+              <div className="apply-form-group">
+                <label>Cover Letter</label>
+
+                <textarea
+                  placeholder="Tell the recruiter why you're interested in this internship..."
+                  rows="6"
+                ></textarea>
+              </div>
+
+              {/* Buttons */}
+
+              <div className="apply-form-actions">
+                <button
+                  type="button"
+                  className="cancel-apply-btn"
+                  onClick={() => setShowApplyForm(false)}
+                >
+                  Cancel
+                </button>
+
+                <button type="submit" className="submit-apply-btn">
+                  Submit Application
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
-      </main>
+      )}
     </div>
   );
 }
