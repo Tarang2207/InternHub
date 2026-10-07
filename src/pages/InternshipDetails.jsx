@@ -389,9 +389,9 @@ function InternshipDetails() {
                     onChange={(e) => setResume(e.target.files[0])}
                   />
 
-                  <span>Upload your resume</span>
+                  <p>{resume ? resume.name : "Upload your resume"}</p>
 
-                  <small>PDF, DOC or DOCX</small>
+                  <span>{resume ? "PDF selected" : "PDF, DOC or DOCX"}</span>
                 </div>
               </div>
 
