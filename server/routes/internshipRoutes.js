@@ -50,6 +50,29 @@ router.get("/", async (req, res) => {
   }
 });
 
+router.get(
+  "/my",
+  authMiddleware,
+  roleMiddleware("recruiter"),
+  async (req, res) => {
+    try {
+      const internships = await Internship.find({
+        recruiter: req.user.id,
+      }).sort({ createdAt: -1 });
+
+      res.status(200).json({
+        internships,
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        message: "Failed to fetch your internships.",
+      });
+    }
+  },
+);
+
 // Get a single internship by ID
 router.get("/:id", async (req, res) => {
   try {
@@ -58,12 +81,6 @@ router.get("/:id", async (req, res) => {
     if (!internship) {
       return res.status(404).json({
         message: "Internship not found.",
-      });
-    }
-
-    if (internship.recruiter.toString() !== req.user.id) {
-      return res.status(403).json({
-        message: "You can only update your own internships.",
       });
     }
 

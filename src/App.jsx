@@ -15,6 +15,9 @@ import axios from "axios";
 import internshipsData from "./data/internships";
 import MyApplications from "./pages/MyApplications";
 import AuthChoice from "./pages/AuthChoice";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
+import PostInternship from "./pages/PostInternship";
+import EditInternship from "./pages/EditInternship";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -271,6 +274,30 @@ function App() {
           }
         />
         <Route path="/auth" element={<AuthChoice />} />
+        <Route
+          path="/recruiter-dashboard"
+          element={
+            <ProtectedRoute>
+              <RecruiterDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/post-internship"
+          element={
+            <ProtectedRoute>
+              <PostInternship />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/edit-internship/:id"
+          element={
+            <ProtectedRoute>
+              <EditInternship />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );
