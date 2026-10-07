@@ -68,4 +68,31 @@ router.get("/my", authMiddleware, async (req, res) => {
   }
 });
 
+// Get applications for internships posted by logged-in recruiter
+router.get("/recruiter", authMiddleware, async (req, res) => {
+  try {
+    const applications = await Application.find()
+      .populate({
+        path: "internship",
+        match: { recruiter: req.user.id },
+      })
+      .populate("student", "name email")
+      .sort({ createdAt: -1 });
+
+    const recruiterApplications = applications.filter(
+      (application) => application.internship,
+    );
+
+    res.status(200).json({
+      applications: recruiterApplications,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to fetch recruiter applications.",
+    });
+  }
+});
+
 module.exports = router;
