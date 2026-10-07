@@ -14,6 +14,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import axios from "axios";
 import internshipsData from "./data/internships";
 import MyApplications from "./pages/MyApplications";
+import AuthChoice from "./pages/AuthChoice";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -269,6 +270,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/auth" element={<AuthChoice />} />
       </Routes>
     </BrowserRouter>
   );

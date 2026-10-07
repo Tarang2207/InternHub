@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.post("/register", async (req, res) => {
   try {
-    const { name, email, password } = req.body;
+    const { name, email, password, role } = req.body;
 
     if (!name || !email || !password) {
       return res.status(400).json({
@@ -29,10 +29,23 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
+      role: role || "student",
     });
 
+    const token = jwt.sign(
+      {
+        id: user._id,
+        role: user.role,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "1d",
+      },
+    );
+
     res.status(201).json({
-      message: "User registered successfully!",
+      message: "Registration successful!",
+      token,
       user: {
         id: user._id,
         name: user.name,
@@ -40,6 +53,7 @@ router.post("/register", async (req, res) => {
         role: user.role,
       },
     });
+    
   } catch (error) {
     console.error(error);
 
