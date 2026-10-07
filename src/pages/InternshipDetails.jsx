@@ -32,6 +32,11 @@ function InternshipDetails() {
 
   const [showApplyForm, setShowApplyForm] = useState(false);
 
+  const [coverLetter, setCoverLetter] = useState("");
+  const [resume, setResume] = useState(null);
+  const [applicationMessage, setApplicationMessage] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   // Fetch internship from backend
   useEffect(() => {
     axios
@@ -104,14 +109,55 @@ function InternshipDetails() {
   };
 
   // Submit application
-  const handleSubmitApplication = (e) => {
+  const handleSubmitApplication = async (e) => {
     e.preventDefault();
 
-    alert(
-      "Application form submitted! Backend integration will be added later.",
-    );
+    const token = localStorage.getItem("token");
 
-    setShowApplyForm(false);
+    if (!token) {
+      navigate("/login");
+      return;
+    }
+
+    if (!coverLetter.trim()) {
+      setApplicationMessage("Please enter a cover letter.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+      setApplicationMessage("");
+
+      const response = await axios.post(
+        "http://localhost:5000/api/applications",
+        {
+          internship: internship.id,
+          coverLetter: coverLetter,
+          resume: resume ? resume.name : "",
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
+
+      setApplicationMessage(response.data.message);
+
+      setCoverLetter("");
+      setResume(null);
+
+      setTimeout(() => {
+        setShowApplyForm(false);
+        setApplicationMessage("");
+      }, 1500);
+    } catch (error) {
+      setApplicationMessage(
+        error.response?.data?.message || "Failed to submit application.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -337,7 +383,11 @@ function InternshipDetails() {
                 <label>Resume</label>
 
                 <div className="resume-upload-box">
-                  <input type="file" accept=".pdf,.doc,.docx" />
+                  <input
+                    type="file"
+                    accept=".pdf,.doc,.docx"
+                    onChange={(e) => setResume(e.target.files[0])}
+                  />
 
                   <span>Upload your resume</span>
 
@@ -353,12 +403,17 @@ function InternshipDetails() {
                 <textarea
                   placeholder="Tell the recruiter why you're interested in this internship..."
                   rows="6"
+                  value={coverLetter}
+                  onChange={(e) => setCoverLetter(e.target.value)}
                 ></textarea>
               </div>
 
               {/* Buttons */}
 
               <div className="apply-form-actions">
+                {applicationMessage && (
+                  <p className="application-message">{applicationMessage}</p>
+                )}
                 <button
                   type="button"
                   className="cancel-apply-btn"
@@ -367,8 +422,12 @@ function InternshipDetails() {
                   Cancel
                 </button>
 
-                <button type="submit" className="submit-apply-btn">
-                  Submit Application
+                <button
+                  type="submit"
+                  className="submit-apply-btn"
+                  disabled={isSubmitting}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit Application"}
                 </button>
               </div>
             </form>
