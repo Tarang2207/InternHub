@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BookmarkX, ArrowLeft } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import internships from "../data/internships";
+import axios from "axios";
 
 function SavedInternships() {
   const navigate = useNavigate();
@@ -10,15 +10,38 @@ function SavedInternships() {
   const [savedInternships, setSavedInternships] = useState([]);
 
   useEffect(() => {
-    const savedIds = JSON.parse(
-      localStorage.getItem("savedInternships") || "[]",
-    );
+    const fetchSavedInternships = async () => {
+      try {
+        const savedIds = JSON.parse(
+          localStorage.getItem("savedInternships") || "[]",
+        );
 
-    const saved = internships.filter((internship) =>
-      savedIds.includes(internship.id),
-    );
+        if (savedIds.length === 0) {
+          setSavedInternships([]);
+          return;
+        }
 
-    setSavedInternships(saved);
+        const response = await axios.get(
+          "http://localhost:5000/api/internships",
+        );
+
+        const internships = response.data.internships;
+
+        const saved = internships
+          .filter((internship) => savedIds.includes(internship._id))
+          .map((internship) => ({
+            ...internship,
+            id: internship._id,
+            logo: internship.company.charAt(0).toUpperCase(),
+          }));
+
+        setSavedInternships(saved);
+      } catch (error) {
+        console.error("Failed to fetch saved internships:", error);
+      }
+    };
+
+    fetchSavedInternships();
   }, []);
 
   const removeSaved = (id) => {
