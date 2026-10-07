@@ -13,6 +13,7 @@ import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import axios from "axios";
 import internshipsData from "./data/internships";
+import MyApplications from "./pages/MyApplications";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -259,6 +260,15 @@ function App() {
         <Route path="/login" element={<Login />} />
 
         <Route path="/signup" element={<Signup />} />
+
+        <Route
+          path="/my-applications"
+          element={
+            <ProtectedRoute>
+              <MyApplications />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </BrowserRouter>
   );

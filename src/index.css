@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap");
 
 @import "tailwindcss";
 
@@ -16,4 +16,317 @@ body,
 body {
   margin: 0;
   font-family: "Inter", sans-serif;
+}
+
+/* ================================
+   MY APPLICATIONS
+================================ */
+
+.my-applications-container {
+  min-height: 100vh;
+  background: #f8fafc;
+  padding: 32px 6%;
+}
+
+.applications-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  background: transparent;
+  color: #64748b;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 28px;
+}
+
+.applications-back-btn:hover {
+  color: #0284c7;
+}
+
+.applications-header {
+  margin-bottom: 30px;
+}
+
+.applications-header h1 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.applications-header p {
+  margin-top: 8px;
+  color: #64748b;
+  font-size: 15px;
+}
+
+/* GRID */
+
+.applications-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+}
+
+/* CARD */
+
+.application-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 22px;
+  transition: all 0.25s ease;
+}
+
+.application-card:hover {
+  transform: translateY(-3px);
+  border-color: #bae6fd;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+/* TOP */
+
+.application-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  position: relative;
+}
+
+.application-company-logo {
+  width: 56px;
+  height: 56px;
+  min-width: 56px;
+  border-radius: 14px;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.application-title-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.application-title-section h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.application-company {
+  margin: 5px 0 0;
+  color: #0284c7;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* META */
+
+.application-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 13px;
+}
+
+.application-meta span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+/* STATUS */
+
+.application-status {
+  padding: 6px 11px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.status-applied {
+  background: #eff6ff;
+  color: #2563eb;
+}
+
+.status-review {
+  background: #fefce8;
+  color: #ca8a04;
+}
+
+.status-shortlisted {
+  background: #faf5ff;
+  color: #9333ea;
+}
+
+.status-interview {
+  background: #eef2ff;
+  color: #4f46e5;
+}
+
+.status-selected {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.status-rejected {
+  background: #fef2f2;
+  color: #dc2626;
+}
+
+.status-default {
+  background: #f1f5f9;
+  color: #475569;
+}
+
+/* DIVIDER */
+
+.application-divider {
+  height: 1px;
+  background: #f1f5f9;
+  margin: 20px 0 16px;
+}
+
+/* BOTTOM */
+
+.application-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.application-date,
+.resume-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  color: #64748b;
+  font-size: 12px;
+}
+
+.application-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* BUTTON */
+
+.view-internship-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid #bae6fd;
+  background: white;
+  color: #0284c7;
+  padding: 9px 15px;
+  border-radius: 9px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.view-internship-btn:hover {
+  background: #f0f9ff;
+  border-color: #7dd3fc;
+}
+
+/* EMPTY */
+
+.applications-empty {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.empty-icon {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 15px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  color: #0284c7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.applications-empty h2 {
+  margin: 0;
+  color: #0f172a;
+  font-size: 20px;
+}
+
+.applications-empty p {
+  color: #64748b;
+  margin: 8px 0 20px;
+}
+
+.find-internship-btn {
+  border: none;
+  background: #0ea5e9;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 9px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.find-internship-btn:hover {
+  background: #0284c7;
+}
+
+/* LOADING */
+
+.applications-loading {
+  padding: 50px;
+  text-align: center;
+  color: #64748b;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {
+  .applications-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 650px) {
+  .my-applications-container {
+    padding: 25px 16px;
+  }
+
+  .application-card-top {
+    flex-wrap: wrap;
+  }
+
+  .application-status {
+    margin-left: 72px;
+  }
+
+  .application-card-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .application-actions {
+    width: 100%;
+    justify-content: space-between;
+  }
 }
