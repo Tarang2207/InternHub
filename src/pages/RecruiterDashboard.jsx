@@ -27,7 +27,11 @@ const RecruiterDashboard = () => {
   const [applications, setApplications] = useState([]);
   const [activeSection, setActiveSection] = useState("dashboard");
   const [openStatusId, setOpenStatusId] = useState(null);
+  const [profileForm, setProfileForm] = useState({
+    name: "",
+  });
 
+  const [isEditingProfile, setIsEditingProfile] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -241,7 +245,12 @@ const RecruiterDashboard = () => {
             <FileText size={19} />
             Applications
           </button>
-          <button className="sidebar-item">
+          <button
+            className={`sidebar-item ${
+              activeSection === "profile" ? "active" : ""
+            }`}
+            onClick={() => setActiveSection("profile")}
+          >
             <UserCircle size={19} />
             Profile
           </button>
@@ -623,6 +632,128 @@ const RecruiterDashboard = () => {
                     </div>
                   </div>
                 ))}
+              </div>
+            )}
+          </div>
+        )}
+
+        {activeSection === "profile" && (
+          <div className="recruiter-profile-section">
+            <div className="recruiter-section-header">
+              <div>
+                <h2>Profile</h2>
+                <p>Manage your recruiter account information</p>
+              </div>
+            </div>
+
+            {!isEditingProfile ? (
+              <div className="recruiter-profile-card">
+                <div className="recruiter-profile-avatar">
+                  {user?.name?.charAt(0).toUpperCase() || "R"}
+                </div>
+
+                <div className="recruiter-profile-info">
+                  <h2>{user?.name || "Recruiter"}</h2>
+
+                  <p>{user?.email || "No email available"}</p>
+
+                  <span>Recruiter</span>
+                </div>
+
+                <button
+                  className="edit-profile-btn"
+                  onClick={() => {
+                    setProfileForm({
+                      name: user?.name || "",
+                    });
+
+                    setIsEditingProfile(true);
+                  }}
+                >
+                  Edit Profile
+                </button>
+              </div>
+            ) : (
+              <div className="recruiter-profile-card">
+                <div className="recruiter-profile-info">
+                  <h2>Edit Profile</h2>
+
+                  <div className="profile-form">
+                    <div className="profile-form-group">
+                      <label>Full Name</label>
+                      <input
+                        type="text"
+                        value={profileForm.name}
+                        onChange={(e) =>
+                          setProfileForm({
+                            ...profileForm,
+                            name: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+
+                    <div className="profile-form-group">
+                      <label>Email</label>
+                      <input type="email" value={user?.email || ""} disabled />
+                    </div>
+
+                    <div className="profile-form-group">
+                      <label>Role</label>
+                      <input type="text" value="Recruiter" disabled />
+                    </div>
+                  </div>
+
+                  <div className="profile-form-actions">
+                    <button
+                      className="cancel-profile-btn"
+                      onClick={() => setIsEditingProfile(false)}
+                    >
+                      Cancel
+                    </button>
+
+                    <button
+                      className="save-profile-btn"
+                      onClick={async () => {
+                        try {
+                          const token = localStorage.getItem("token");
+
+                          const response = await axios.put(
+                            "http://localhost:5000/api/auth/profile",
+                            {
+                              name: profileForm.name,
+                            },
+                            {
+                              headers: {
+                                Authorization: `Bearer ${token}`,
+                              },
+                            },
+                          );
+
+                          setUser(response.data.user);
+
+                          localStorage.setItem(
+                            "user",
+                            JSON.stringify(response.data.user),
+                          );
+
+                          setIsEditingProfile(false);
+
+                          alert("Profile updated successfully!");
+                        } catch (error) {
+                          console.error("Profile update error:", error);
+
+                          alert(
+                            error.response?.data?.message ||
+                              "Failed to update profile.",
+                          );
+                        }
+                      }}
+                    >
+                      Save Changes
+                    </button>
+                  </div>
+                </div>
               </div>
             )}
           </div>
