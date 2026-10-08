@@ -4828,3 +4828,17 @@ button:focus-visible {
   color: #0284c7;
   font-weight: 700;
 }
+
+.recruiter-application-card {
+  position: relative;
+  overflow: visible;
+}
+
+.status-dropdown {
+  position: relative;
+  z-index: 100;
+}
+
+.status-dropdown-menu {
+  z-index: 9999;
+}
