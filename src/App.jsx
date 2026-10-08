@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
@@ -18,6 +18,7 @@ import AuthChoice from "./pages/AuthChoice";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import PostInternship from "./pages/PostInternship";
 import EditInternship from "./pages/EditInternship";
+import RecruiterApplications from "./pages/RecruiterApplications";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -26,6 +27,8 @@ function Home() {
   const [selectedDurations, setSelectedDurations] = useState([]);
   const [selectedTypes, setSelectedTypes] = useState([]);
   const [sortBy, setSortBy] = useState("default");
+  const [isSortOpen, setIsSortOpen] = useState(false);
+  const internshipsSectionRef = useRef(null);
 
   const [savedInternships, setSavedInternships] = useState(() => {
     const saved = localStorage.getItem("savedInternships");
@@ -151,7 +154,7 @@ function Home() {
         </div>
       </section>
 
-      <section className="internships">
+      <section className="internships" ref={internshipsSectionRef}>
         <div className="section-heading">
           <div>
             <p className="section-tag">EXPLORE OPPORTUNITIES</p>
@@ -159,17 +162,85 @@ function Home() {
           </div>
 
           <div className="heading-actions">
-            <select
-              className="sort-select"
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-            >
-              <option value="default">Sort By</option>
-              <option value="stipend-high">Stipend: High to Low</option>
-              <option value="stipend-low">Stipend: Low to High</option>
-            </select>
+            <div className="sort-dropdown">
+              <button
+                className="sort-dropdown-btn"
+                onClick={() => setIsSortOpen(!isSortOpen)}
+              >
+                <span>
+                  {sortBy === "default"
+                    ? "Sort By"
+                    : sortBy === "stipend-high"
+                      ? "Stipend: High to Low"
+                      : "Stipend: Low to High"}
+                </span>
 
-            <button className="view-all">View All →</button>
+                <span className={`sort-arrow ${isSortOpen ? "open" : ""}`}>
+                  ▾
+                </span>
+              </button>
+
+              {isSortOpen && (
+                <div className="sort-dropdown-menu">
+                  <button
+                    className={`sort-dropdown-option ${
+                      sortBy === "default" ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      setSortBy("default");
+                      setIsSortOpen(false);
+                    }}
+                  >
+                    <span>Sort By</span>
+                    {sortBy === "default" && <span>✓</span>}
+                  </button>
+
+                  <button
+                    className={`sort-dropdown-option ${
+                      sortBy === "stipend-high" ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      setSortBy("stipend-high");
+                      setIsSortOpen(false);
+                    }}
+                  >
+                    <span>Stipend: High to Low</span>
+                    {sortBy === "stipend-high" && <span>✓</span>}
+                  </button>
+
+                  <button
+                    className={`sort-dropdown-option ${
+                      sortBy === "stipend-low" ? "selected" : ""
+                    }`}
+                    onClick={() => {
+                      setSortBy("stipend-low");
+                      setIsSortOpen(false);
+                    }}
+                  >
+                    <span>Stipend: Low to High</span>
+                    {sortBy === "stipend-low" && <span>✓</span>}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            <button
+              className="view-all"
+              onClick={() => {
+                setSearchTerm("");
+                setSelectedModes([]);
+                setSelectedDurations([]);
+                setSelectedTypes([]);
+                setSortBy("default");
+
+                internshipsSectionRef.current?.scrollIntoView({
+                  behavior: "smooth",
+                  block: "start",
+                });
+              }}
+            >
+              View All →
+            </button>
           </div>
         </div>
 
@@ -295,6 +366,14 @@ function App() {
           element={
             <ProtectedRoute>
               <EditInternship />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/recruiter-applications"
+          element={
+            <ProtectedRoute>
+              <RecruiterApplications />
             </ProtectedRoute>
           }
         />

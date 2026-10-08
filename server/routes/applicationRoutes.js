@@ -95,4 +95,61 @@ router.get("/recruiter", authMiddleware, async (req, res) => {
   }
 });
 
+// Update application status by recruiter
+router.put("/:id/status", authMiddleware, async (req, res) => {
+  try {
+    const { status } = req.body;
+
+    const allowedStatuses = [
+      "Applied",
+      "Under Review",
+      "Shortlisted",
+      "Interview",
+      "Selected",
+      "Rejected",
+    ];
+
+    if (!allowedStatuses.includes(status)) {
+      return res.status(400).json({
+        message: "Invalid application status.",
+      });
+    }
+
+    const application = await Application.findById(req.params.id).populate(
+      "internship",
+    );
+
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found.",
+      });
+    }
+
+    // Check that this internship belongs to the logged-in recruiter
+    if (
+      !application.internship ||
+      application.internship.recruiter?.toString() !== req.user.id
+    ) {
+      return res.status(403).json({
+        message: "You are not authorized to update this application.",
+      });
+    }
+
+    application.status = status;
+
+    await application.save();
+
+    res.status(200).json({
+      message: "Application status updated successfully!",
+      application,
+    });
+  } catch (error) {
+    console.error(error);
+
+    res.status(500).json({
+      message: "Failed to update application status.",
+    });
+  }
+});
+
 module.exports = router;
