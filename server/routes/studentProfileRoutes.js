@@ -82,7 +82,7 @@ router.put("/", authMiddleware, roleMiddleware("student"), async (req, res) => {
       { user: req.user.id },
       { $set: profileData, $setOnInsert: { user: req.user.id } },
       {
-        new: true,
+        returnDocument: "after",
         upsert: true,
         runValidators: true,
         setDefaultsOnInsert: true,
