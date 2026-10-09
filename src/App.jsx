@@ -19,6 +19,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import PostInternship from "./pages/PostInternship";
 import EditInternship from "./pages/EditInternship";
 import RecruiterApplications from "./pages/RecruiterApplications";
+import StudentDashboard from "./pages/StudentDashboard";
 
 function Home() {
   const [selectedInternship, setSelectedInternship] = useState(null);
@@ -374,6 +375,14 @@ function App() {
           element={
             <ProtectedRoute>
               <RecruiterApplications />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/student-dashboard"
+          element={
+            <ProtectedRoute>
+              <StudentDashboard />
             </ProtectedRoute>
           }
         />

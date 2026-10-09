@@ -4994,3 +4994,199 @@ button:focus-visible {
   background: #0369a1;
   transform: translateY(-1px);
 }
+
+/* ===== Student Profile - InternHub Dashboard Theme ===== */
+
+.student-dashboard {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px;
+  box-sizing: border-box;
+  color: #334155;
+  font-family: inherit;
+}
+
+/* Page heading */
+.student-dashboard h1 {
+  margin: 0 0 8px;
+  color: #0f172a;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+
+.student-dashboard > p {
+  margin: 0 0 28px;
+  color: #64748b;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+/* Profile form card */
+.student-dashboard form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px 24px;
+  padding: 28px;
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  box-shadow: 0 4px 18px rgba(15, 23, 42, 0.04);
+}
+
+/* Field labels */
+.student-dashboard form label {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  color: #334155;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Input fields */
+.student-dashboard input,
+.student-dashboard textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: 12px 14px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 400;
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.student-dashboard input {
+  height: 45px;
+}
+
+.student-dashboard textarea {
+  min-height: 115px;
+  resize: vertical;
+  line-height: 1.6;
+}
+
+.student-dashboard input::placeholder,
+.student-dashboard textarea::placeholder {
+  color: #94a3b8;
+}
+
+/* Blue focus effect */
+.student-dashboard input:focus,
+.student-dashboard textarea:focus {
+  border-color: #0284c7;
+  box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.1);
+}
+
+.student-dashboard input:hover:not(:focus),
+.student-dashboard textarea:hover:not(:focus) {
+  border-color: #cbd5e1;
+}
+
+/* Bio gets full width */
+.student-dashboard form label:has(textarea) {
+  grid-column: 1 / -1;
+}
+
+/* Save button - matches recruiter dashboard buttons */
+.student-dashboard form button {
+  justify-self: start;
+  min-width: 150px;
+  padding: 12px 22px;
+  border: none;
+  border-radius: 8px;
+  background: #0284c7;
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.student-dashboard form button:hover:not(:disabled) {
+  background: #0369a1;
+  transform: translateY(-1px);
+}
+
+.student-dashboard form button:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+/* Status message */
+.student-dashboard p[role="status"] {
+  margin: 0 0 22px;
+  padding: 13px 16px;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  background: #f0f9ff;
+  color: #075985;
+  font-size: 14px;
+}
+
+/* Tablet and mobile */
+@media (max-width: 768px) {
+  .student-dashboard {
+    padding: 22px 16px;
+  }
+
+  .student-dashboard form {
+    gap: 20px;
+    padding: 22px;
+  }
+}
+
+@media (max-width: 560px) {
+  .student-dashboard h1 {
+    font-size: 24px;
+  }
+
+  .student-dashboard form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .student-dashboard form label:has(textarea) {
+    grid-column: auto;
+  }
+
+  .student-dashboard form button {
+    width: 100%;
+  }
+}
+
+/* Back to Home Button */
+.student-dashboard .back-home-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 22px;
+  padding: 10px 16px;
+  border: 1px solid #bae6fd;
+  border-radius: 8px;
+  background: #f0f9ff;
+  color: #0284c7;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.student-dashboard .back-home-btn:hover {
+  background: #e0f2fe;
+  border-color: #7dd3fc;
+  color: #0369a1;
+}
