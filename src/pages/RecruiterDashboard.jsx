@@ -67,7 +67,7 @@ const RecruiterDashboard = () => {
           "http://localhost:5000/api/applications/recruiter",
           {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
             },
           },
         );
