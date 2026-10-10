@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import InternshipCard from "./components/InternshipCard";
@@ -22,6 +22,7 @@ import RecruiterApplications from "./pages/RecruiterApplications";
 import StudentDashboard from "./pages/StudentDashboard";
 
 function Home() {
+  const navigate = useNavigate();
   const [selectedInternship, setSelectedInternship] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedModes, setSelectedModes] = useState([]);
@@ -301,7 +302,14 @@ function Home() {
                   ))}
                 </div>
 
-                <button className="details-apply-btn">Apply Now</button>
+                <button
+                  className="details-apply-btn"
+                  onClick={() =>
+                    navigate(`/internship/${selectedInternship.id}`)
+                  }
+                >
+                  Apply Now
+                </button>
               </>
             ) : (
               <>
