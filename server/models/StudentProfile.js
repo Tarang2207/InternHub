@@ -62,6 +62,12 @@ const studentProfileSchema = new mongoose.Schema(
       trim: true,
       default: "",
     },
+    
+    resume: {
+      type: String,
+      trim: true,
+      default: "",
+    },
   },
   {
     timestamps: true,

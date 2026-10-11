@@ -40,6 +40,7 @@ router.put("/", authMiddleware, roleMiddleware("student"), async (req, res) => {
       github,
       linkedin,
       portfolio,
+      resume,
     } = req.body;
 
     const profileData = {
@@ -55,6 +56,7 @@ router.put("/", authMiddleware, roleMiddleware("student"), async (req, res) => {
       github,
       linkedin,
       portfolio,
+      resume,
     };
 
     if (

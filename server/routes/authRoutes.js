@@ -16,6 +16,12 @@ router.post("/register", async (req, res) => {
       });
     }
 
+    if (!["student", "recruiter"].includes(role)) {
+      return res.status(400).json({
+        message: "Invalid registration role.",
+      });
+    }
+
     const existingUser = await User.findOne({ email });
 
     if (existingUser) {
@@ -30,7 +36,7 @@ router.post("/register", async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      role: role || "student",
+      role,
     });
 
     const token = jwt.sign(

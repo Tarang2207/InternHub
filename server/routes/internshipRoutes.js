@@ -2,6 +2,7 @@ const express = require("express");
 const Internship = require("../models/Internship");
 const authMiddleware = require("../middleware/authMiddleware");
 const roleMiddleware = require("../middleware/roleMiddleware");
+const mongoose = require("mongoose");
 
 const router = express.Router();
 
@@ -97,70 +98,112 @@ router.get("/:id", async (req, res) => {
 });
 
 // Update an internship
+// PUT /api/internships/:id - Update internship (Recruiter owner only)
 router.put(
   "/:id",
   authMiddleware,
   roleMiddleware("recruiter"),
   async (req, res) => {
     try {
-      const internship = await Internship.findByIdAndUpdate(
-        req.params.id,
-        req.body,
-        {
-          new: true,
-          runValidators: true,
-        },
-      );
+      const { id } = req.params;
 
-      if (!internship) {
-        return res.status(404).json({
-          message: "Internship not found.",
+      // 1. Validate ObjectId format
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+          .status(400)
+          .json({ message: "Invalid internship ID format." });
+      }
+
+      const allowedFields = [
+        "title",
+        "company",
+        "location",
+        "mode",
+        "duration",
+        "stipend",
+        "type",
+        "skills",
+        "description",
+        "responsibilities",
+        "requirements",
+        "benefits",
+      ];
+
+      const updateData = {};
+
+      Object.keys(req.body).forEach((key) => {
+        if (allowedFields.includes(key)) {
+          updateData[key] = req.body[key];
+        }
+      });
+
+      if (Object.keys(updateData).length === 0) {
+        return res.status(400).json({
+          message: "No valid fields provided for update.",
         });
       }
 
-      res.status(200).json({
+      // 3. Perform atomic update scoped by internship ID AND recruiter ID
+      const updatedInternship = await Internship.findOneAndUpdate(
+        { _id: id, recruiter: req.user.id },
+        { $set: updateData },
+        { new: true, runValidators: true },
+      );
+
+      if (!updatedInternship) {
+        return res.status(404).json({
+          message: "Internship not found or unauthorized.",
+        });
+      }
+
+      return res.status(200).json({
         message: "Internship updated successfully!",
-        internship,
+        internship: updatedInternship,
       });
     } catch (error) {
-      console.error(error);
-
-      res.status(500).json({
-        message: "Failed to update internship.",
+      return res.status(500).json({
+        message: "Server error updating internship.",
+        error: error.message,
       });
     }
   },
 );
 
-// Delete an internship
+// DELETE /api/internships/:id - Delete internship (Recruiter owner only)
 router.delete(
   "/:id",
   authMiddleware,
   roleMiddleware("recruiter"),
   async (req, res) => {
     try {
-      const internship = await Internship.findByIdAndDelete(req.params.id);
+      const { id } = req.params;
 
-      if (!internship) {
-        return res.status(404).json({
-          message: "Internship not found.",
-        });
+      // 1. Validate ObjectId format
+      if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res
+          .status(400)
+          .json({ message: "Invalid internship ID format." });
       }
 
-      if (internship.recruiter.toString() !== req.user.id) {
-        return res.status(403).json({
-          message: "You can only delete your own internships.",
-        });
-      }
-
-      res.status(200).json({
-        message: "Internship deleted successfully!",
+      // 3. Perform atomic deletion scoped by internship ID AND recruiter ID
+      const deletedInternship = await Internship.findOneAndDelete({
+        _id: id,
+        recruiter: req.user.id,
       });
-    } catch (error) {
-      console.error(error);
 
-      res.status(500).json({
-        message: "Failed to delete internship.",
+      if (!deletedInternship) {
+        return res.status(404).json({
+          message: "Internship not found or unauthorized.",
+        });
+      }
+
+      return res
+        .status(200)
+        .json({ message: "Internship deleted successfully!" });
+    } catch (error) {
+      return res.status(500).json({
+        message: "Server error deleting internship.",
+        error: error.message,
       });
     }
   },
