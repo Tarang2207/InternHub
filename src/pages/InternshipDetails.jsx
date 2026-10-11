@@ -2,6 +2,7 @@
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import axios from "axios";
+// import { CheckCircle2 } from "lucide-react";
 
 import {
   ArrowLeft,
@@ -36,6 +37,8 @@ function InternshipDetails() {
   const [resume, setResume] = useState(null);
   const [applicationMessage, setApplicationMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const MAX_RESUME_SIZE = 5 * 1024 * 1024; // 5 MB
+  const [applicationSubmitted, setApplicationSubmitted] = useState(false);
 
   // Fetch internship from backend
   useEffect(() => {
@@ -105,6 +108,8 @@ function InternshipDetails() {
       return;
     }
 
+    setApplicationSubmitted(false);
+    setApplicationMessage("");
     setShowApplyForm(true);
   };
 
@@ -142,16 +147,16 @@ function InternshipDetails() {
         },
       );
 
-      setApplicationMessage(response.data.message);
+      setApplicationSubmitted(true);
+
+      setApplicationMessage(
+        response.data.message || "Application submitted successfully!",
+      );
 
       setCoverLetter("");
       setResume(null);
-
-      setTimeout(() => {
-        setShowApplyForm(false);
-        setApplicationMessage("");
-      }, 1500);
     } catch (error) {
+      setApplicationSubmitted(false);
       setApplicationMessage(
         error.response?.data?.message || "Failed to submit application.",
       );
@@ -241,63 +246,71 @@ function InternshipDetails() {
 
           {/* Skills */}
 
-          <section className="details-section">
-            <h2>Skills Required</h2>
+          {Array.isArray(internship.skills) && internship.skills.length > 0 && (
+            <section className="details-section">
+              <h2>Skills Required</h2>
 
-            <div className="details-skills">
-              {internship.skills?.map((skill, index) => (
-                <span key={index}>{skill}</span>
-              ))}
-            </div>
-          </section>
+              <div className="details-skills">
+                {internship.skills.map((skill, index) => (
+                  <span key={index}>{skill}</span>
+                ))}
+              </div>
+            </section>
+          )}
 
           {/* Responsibilities */}
 
-          <section className="details-section">
-            <h2>Responsibilities</h2>
+          {Array.isArray(internship.responsibilities) &&
+            internship.responsibilities.length > 0 && (
+              <section className="details-section">
+                <h2>Responsibilities</h2>
 
-            <ul className="details-list">
-              {internship.responsibilities?.map((item, index) => (
-                <li key={index}>
-                  <CheckCircle2 size={18} />
-
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+                <ul className="details-list">
+                  {internship.responsibilities.map((item, index) => (
+                    <li key={index}>
+                      <CheckCircle2 size={18} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
           {/* Requirements */}
 
-          <section className="details-section">
-            <h2>Requirements</h2>
+          {Array.isArray(internship.requirements) &&
+            internship.requirements.length > 0 && (
+              <section className="details-section">
+                <h2>Requirements</h2>
 
-            <ul className="details-list">
-              {internship.requirements?.map((item, index) => (
-                <li key={index}>
-                  <CheckCircle2 size={18} />
-
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+                <ul className="details-list">
+                  {internship.requirements.map((item, index) => (
+                    <li key={index}>
+                      <CheckCircle2 size={18} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
           {/* Benefits */}
 
-          <section className="details-section">
-            <h2>Benefits</h2>
+          {Array.isArray(internship.benefits) &&
+            internship.benefits.length > 0 && (
+              <section className="details-section">
+                <h2>Benefits</h2>
 
-            <ul className="details-list">
-              {internship.benefits?.map((item, index) => (
-                <li key={index}>
-                  <CheckCircle2 size={18} />
-
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </section>
+                <ul className="details-list">
+                  {internship.benefits.map((item, index) => (
+                    <li key={index}>
+                      <CheckCircle2 size={18} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
         </main>
 
         {/* Right Sidebar */}
@@ -376,61 +389,124 @@ function InternshipDetails() {
 
             {/* Form */}
 
-            <form onSubmit={handleSubmitApplication}>
-              {/* Resume */}
+            {applicationSubmitted ? (
+              <div className="application-success">
+                <CheckCircle2 size={48} color="green" />
 
-              <div className="apply-form-group">
-                <label>Resume</label>
+                <h3>Application Submitted!</h3>
 
-                <div className="resume-upload-box">
-                  <input
-                    type="file"
-                    accept=".pdf,.doc,.docx"
-                    onChange={(e) => setResume(e.target.files[0])}
-                  />
+                <p>
+                  Your application for {internship.title} has been submitted.
+                </p>
 
-                  <p>{resume ? resume.name : "Upload your resume"}</p>
+                <div className="apply-form-actions">
+                  <button
+                    type="button"
+                    className="cancel-apply-btn"
+                    onClick={() => setShowApplyForm(false)}
+                  >
+                    Close
+                  </button>
 
-                  <span>{resume ? "PDF selected" : "PDF, DOC or DOCX"}</span>
+                  <button
+                    type="button"
+                    className="submit-apply-btn"
+                    onClick={() => navigate("/my-applications")}
+                  >
+                    View My Applications
+                  </button>
                 </div>
               </div>
+            ) : (
+              <form onSubmit={handleSubmitApplication}>
+                {/* Resume */}
+                <div className="apply-form-group">
+                  <label>Resume</label>
 
-              {/* Cover Letter */}
+                  <div className="resume-upload-box">
+                    <input
+                      type="file"
+                      accept=".pdf,.doc,.docx"
+                      onChange={(e) => {
+                        const file = e.target.files?.[0];
 
-              <div className="apply-form-group">
-                <label>Cover Letter</label>
+                        if (!file) {
+                          setResume(null);
+                          return;
+                        }
 
-                <textarea
-                  placeholder="Tell the recruiter why you're interested in this internship..."
-                  rows="6"
-                  value={coverLetter}
-                  onChange={(e) => setCoverLetter(e.target.value)}
-                ></textarea>
-              </div>
+                        const allowedExtensions = /\.(pdf|doc|docx)$/i;
 
-              {/* Buttons */}
+                        if (!allowedExtensions.test(file.name)) {
+                          setApplicationMessage(
+                            "Please select a PDF, DOC, or DOCX file.",
+                          );
+                          e.target.value = "";
+                          setResume(null);
+                          return;
+                        }
 
-              <div className="apply-form-actions">
-                {applicationMessage && (
-                  <p className="application-message">{applicationMessage}</p>
-                )}
-                <button
-                  type="button"
-                  className="cancel-apply-btn"
-                  onClick={() => setShowApplyForm(false)}
-                >
-                  Cancel
-                </button>
+                        if (file.size > MAX_RESUME_SIZE) {
+                          setApplicationMessage(
+                            "Resume must be 5 MB or smaller.",
+                          );
+                          e.target.value = "";
+                          setResume(null);
+                          return;
+                        }
 
-                <button
-                  type="submit"
-                  className="submit-apply-btn"
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit Application"}
-                </button>
-              </div>
-            </form>
+                        setApplicationMessage("");
+                        setResume(file);
+                      }}
+                    />
+
+                    <p>{resume ? resume.name : "Upload your resume"}</p>
+
+                    <span>
+                      {resume
+                        ? `${(resume.size / (1024 * 1024)).toFixed(2)} MB`
+                        : "PDF, DOC or DOCX · Maximum 5 MB"}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Cover Letter */}
+
+                <div className="apply-form-group">
+                  <label>Cover Letter</label>
+
+                  <textarea
+                    placeholder="Tell the recruiter why you're interested in this internship..."
+                    rows="6"
+                    value={coverLetter}
+                    onChange={(e) => setCoverLetter(e.target.value)}
+                  ></textarea>
+                </div>
+
+                {/* Buttons */}
+
+                <div className="apply-form-actions">
+                  {applicationMessage && (
+                    <p className="application-message">{applicationMessage}</p>
+                  )}
+                  <button
+                    type="button"
+                    className="cancel-apply-btn"
+                    onClick={() => setShowApplyForm(false)}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    type="submit"
+                    className="submit-apply-btn"
+                    disabled={isSubmitting}
+                  >
+                    {isSubmitting ? "Submitting..." : "Submit Application"}
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
         </div>
       )}
