@@ -23,7 +23,10 @@ import { useNavigate } from "react-router-dom";
 
 const RecruiterDashboard = () => {
   const [internships, setInternships] = useState([]);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(() => {
+    const storedUser = localStorage.getItem("user");
+    return storedUser ? JSON.parse(storedUser) : null;
+  });
   const [applications, setApplications] = useState([]);
   const [activeSection, setActiveSection] = useState("dashboard");
   const [openStatusId, setOpenStatusId] = useState(null);
@@ -35,9 +38,6 @@ const RecruiterDashboard = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-    setUser(storedUser);
-
     const fetchInternships = async () => {
       try {
         const token = localStorage.getItem("token");
@@ -61,8 +61,6 @@ const RecruiterDashboard = () => {
 
     const fetchApplications = async () => {
       try {
-        const token = localStorage.getItem("token");
-
         const response = await axios.get(
           "http://localhost:5000/api/applications/recruiter",
           {
@@ -88,52 +86,17 @@ const RecruiterDashboard = () => {
   };
 
   const handleDelete = async (id) => {
+    const token = localStorage.getItem("token");
     const confirmDelete = window.confirm(
       "Are you sure you want to delete this internship?",
     );
-
-    const handleStatusChange = async (applicationId, newStatus) => {
-      try {
-        const token = localStorage.getItem("token");
-
-        const response = await axios.put(
-          `http://localhost:5000/api/applications/${applicationId}/status`,
-          {
-            status: newStatus,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          },
-        );
-
-        setApplications((prev) =>
-          prev.map((application) =>
-            application._id === applicationId
-              ? {
-                  ...application,
-                  status: response.data.application.status,
-                }
-              : application,
-          ),
-        );
-      } catch (error) {
-        console.error(error);
-
-        alert(
-          error.response?.data?.message ||
-            "Failed to update application status.",
-        );
-      }
-    };
 
     if (!confirmDelete) {
       return;
     }
 
     try {
-      const token = localStorage.getItem("token");
+      // const token = localStorage.getItem("token");
 
       await axios.delete(`http://localhost:5000/api/internships/${id}`, {
         headers: {

@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import InternshipCard from "./components/InternshipCard";
 import FilterSidebar from "./components/FilterSidebar";
-import internships from "./data/internships";
+// import internships from "./data/internships";
 
 import InternshipDetails from "./pages/InternshipDetails";
 import SavedInternships from "./pages/SavedInternships";
@@ -12,7 +12,7 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import ProtectedRoute from "./components/ProtectedRoute";
 import axios from "axios";
-import internshipsData from "./data/internships";
+// import internshipsData from "./data/internships";
 import MyApplications from "./pages/MyApplications";
 import AuthChoice from "./pages/AuthChoice";
 import RecruiterDashboard from "./pages/RecruiterDashboard";

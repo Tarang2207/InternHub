@@ -15,7 +15,7 @@ import {
   Building2,
 } from "lucide-react";
 
-import internships from "../data/internships";
+// import internships from "../data/internships";
 
 function InternshipDetails() {
   const { id } = useParams();
