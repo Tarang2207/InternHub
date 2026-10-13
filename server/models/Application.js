@@ -37,6 +37,17 @@ const applicationSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
+
+    recruiter: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+
+    internshipSnapshot: {
+      title: { type: String, default: "" },
+      company: { type: String, default: "" },
+    },
   },
   {
     timestamps: true,

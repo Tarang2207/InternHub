@@ -1,48 +1,138 @@
 const express = require("express");
 const Application = require("../models/Application");
 const authMiddleware = require("../middleware/authMiddleware");
+const upload = require("../middleware/uploadMiddleware");
+const path = require("path");
+const fs = require("fs");
+const Internship = require("../models/Internship");
 
 const router = express.Router();
 
 // Apply for an internship
-router.post("/", authMiddleware, async (req, res) => {
+router.post(
+  "/",
+  authMiddleware,
+  (req, res, next) => {
+    upload.single("resume")(req, res, (error) => {
+      if (error) {
+        return res.status(400).json({
+          message:
+            error.code === "LIMIT_FILE_SIZE"
+              ? "Resume must be 5 MB or smaller."
+              : error.message,
+        });
+      }
+
+      next();
+    });
+  },
+  async (req, res) => {
+    try {
+      const { internship, coverLetter } = req.body;
+
+      if (!internship) {
+        return res.status(400).json({
+          message: "Internship ID is required.",
+        });
+      }
+
+      const internshipDoc = await Internship.findById(internship);
+
+      if (!internshipDoc) {
+        return res.status(404).json({
+          message: "Internship not found.",
+        });
+      }
+
+      const existingApplication = await Application.findOne({
+        internship,
+        student: req.user.id,
+      });
+
+      if (existingApplication) {
+        return res.status(400).json({
+          message: "You have already applied for this internship.",
+        });
+      }
+
+      if (!internshipDoc.recruiter) {
+        return res.status(400).json({
+          message: "Internship recruiter information is missing.",
+        });
+      }
+
+      const application = await Application.create({
+        internship,
+        student: req.user.id,
+        recruiter: internshipDoc.recruiter,
+        internshipSnapshot: {
+          title: internshipDoc.title,
+          company: internshipDoc.company,
+        },
+        coverLetter: coverLetter || "",
+        resume: req.file ? req.file.filename : "",
+      });
+
+      res.status(201).json({
+        message: "Application submitted successfully!",
+        application,
+      });
+    } catch (error) {
+      console.error(error);
+
+      res.status(500).json({
+        message: "Failed to submit application.",
+      });
+    }
+  },
+);
+
+// Download a resume for an authorized student or recruiter
+router.get("/:id/resume", authMiddleware, async (req, res) => {
   try {
-    const { internship, coverLetter, resume } = req.body;
+    const application = await Application.findById(req.params.id).populate(
+      "internship",
+    );
 
-    if (!internship) {
-      return res.status(400).json({
-        message: "Internship ID is required.",
+    if (!application) {
+      return res.status(404).json({
+        message: "Application not found.",
       });
     }
 
-    // Check if the student has already applied
-    const existingApplication = await Application.findOne({
-      internship,
-      student: req.user.id,
-    });
+    const isStudent = application.student.toString() === req.user.id;
 
-    if (existingApplication) {
-      return res.status(400).json({
-        message: "You have already applied for this internship.",
+    const isRecruiter =
+      application.recruiter?.toString() === req.user.id ||
+      application.internship?.recruiter?.toString() === req.user.id;
+
+    if (!isStudent && !isRecruiter) {
+      return res.status(403).json({
+        message: "You are not authorized to access this resume.",
       });
     }
 
-    const application = await Application.create({
-      internship,
-      student: req.user.id,
-      coverLetter: coverLetter || "",
-      resume: resume || "",
-    });
+    if (!application.resume) {
+      return res.status(404).json({
+        message: "No resume is attached to this application.",
+      });
+    }
 
-    res.status(201).json({
-      message: "Application submitted successfully!",
-      application,
-    });
+    const filename = path.basename(application.resume);
+    const filePath = path.join(__dirname, "../uploads/resumes", filename);
+
+    if (!fs.existsSync(filePath)) {
+      return res.status(404).json({
+        message: "Resume file not found.",
+      });
+    }
+
+    return res.download(filePath);
   } catch (error) {
     console.error(error);
 
-    res.status(500).json({
-      message: "Failed to submit application.",
+    return res.status(500).json({
+      message: "Failed to download resume.",
     });
   }
 });
