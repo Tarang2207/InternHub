@@ -49,7 +49,7 @@ function Home() {
           (internship) => ({
             ...internship,
             id: internship._id,
-            logo: internship.company.charAt(0).toUpperCase(),
+            logo: (internship.company || "C").charAt(0).toUpperCase(),
           }),
         );
 
@@ -89,14 +89,22 @@ function Home() {
   const filteredInternships = backendInternships.filter((internship) => {
     const search = searchTerm.toLowerCase();
 
+    const title = internship.title || "";
+    const company = internship.company || "";
+    const location = internship.location || "";
+    const type = internship.type || "";
+    const mode = internship.mode || "";
+    const duration = internship.duration || "";
+    const skills = Array.isArray(internship.skills) ? internship.skills : [];
+
     const matchesSearch =
-      internship.title.toLowerCase().includes(search) ||
-      internship.company.toLowerCase().includes(search) ||
-      internship.location.toLowerCase().includes(search) ||
-      internship.type.toLowerCase().includes(search) ||
-      internship.mode.toLowerCase().includes(search) ||
-      internship.duration.toLowerCase().includes(search) ||
-      internship.skills.some((skill) => skill.toLowerCase().includes(search));
+      title.toLowerCase().includes(search) ||
+      company.toLowerCase().includes(search) ||
+      location.toLowerCase().includes(search) ||
+      type.toLowerCase().includes(search) ||
+      mode.toLowerCase().includes(search) ||
+      duration.toLowerCase().includes(search) ||
+      skills.some((skill) => String(skill).toLowerCase().includes(search));
 
     const matchesMode =
       selectedModes.length === 0 || selectedModes.includes(internship.mode);
@@ -111,19 +119,26 @@ function Home() {
     return matchesSearch && matchesMode && matchesDuration && matchesType;
   });
 
+  const getStipendValue = (stipend) => {
+    if (typeof stipend === "number") return stipend;
+
+    if (typeof stipend !== "string") return 0;
+
+    const value = stipend.replace(/,/g, "").match(/\d+(\.\d+)?/);
+
+    return value ? Number(value[0]) : 0;
+  };
+
   const sortedInternships = [...filteredInternships].sort((a, b) => {
+    const stipendA = getStipendValue(a.stipend);
+    const stipendB = getStipendValue(b.stipend);
+
     if (sortBy === "stipend-high") {
-      return (
-        parseInt(b.stipend.replace(/\D/g, "")) -
-        parseInt(a.stipend.replace(/\D/g, ""))
-      );
+      return stipendB - stipendA;
     }
 
     if (sortBy === "stipend-low") {
-      return (
-        parseInt(a.stipend.replace(/\D/g, "")) -
-        parseInt(b.stipend.replace(/\D/g, ""))
-      );
+      return stipendA - stipendB;
     }
 
     return 0;

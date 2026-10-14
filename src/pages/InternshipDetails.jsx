@@ -133,13 +133,18 @@ function InternshipDetails() {
       setIsSubmitting(true);
       setApplicationMessage("");
 
+      const formData = new FormData();
+
+      formData.append("internship", internship.id);
+      formData.append("coverLetter", coverLetter.trim());
+
+      if (resume) {
+        formData.append("resume", resume);
+      }
+
       const response = await axios.post(
         "http://localhost:5000/api/applications",
-        {
-          internship: internship.id,
-          coverLetter: coverLetter,
-          resume: resume ? resume.name : "",
-        },
+        formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
